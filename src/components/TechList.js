@@ -4,7 +4,7 @@ import TechItem from "./TechItem";
 
 class TechList extends Component {
 	state = {
-		techs: ["NodeJS", "ReactJS", "React Native"],
+		techs: [],
 		newTech: ""
 	};
 
@@ -24,6 +24,23 @@ class TechList extends Component {
 			newTech: ""
 		});
 	};
+
+	// Executado quando o componente é montado
+	componentDidMount() {
+		const techs = localStorage.getItem("techs");
+
+		if (techs) this.setState({ techs: JSON.parse(techs) });
+	}
+
+	// executado sempre que o componente sofrer alterações nas props ou estado
+	componentDidUpdate(_, prevState) {
+		if (this.state.techs !== prevState.techs) {
+			localStorage.setItem("techs", JSON.stringify(this.state.techs));
+		}
+	}
+
+	//executado quando o componente deixa de existir
+	componentWillUnmount() {}
 
 	render() {
 		return (
